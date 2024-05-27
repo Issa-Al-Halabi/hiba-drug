@@ -1,0 +1,52 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.background{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    min-height: 100vh;
+    background: url(/public/images/back.jpg) center/cover no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+.waiting{
+    margin-left: 7%;
+    padding: 20px 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.name_store{
+    font-size: 38px;
+    color: #1F2F98;
+    margin-bottom: 5px;
+}
+.wating_title{
+    font-size: 42px;
+    color: #707070;
+    margin-bottom: 5px;
+    letter-spacing: 1.2px;
+}
+.waiting_desc{
+    font-size: 20px;
+    color: #707070;
+}
+.waiting_img{
+    width: 420px;
+    height: 250px;
+}
+@media screen and (max-width: 600px) {
+    .waiting{
+        margin-left: 6%;
+        padding: 20px;
+    }
+}
+@media screen and (max-width: 490px) {
+    .waiting{
+        margin-left: 3%;
+    }
+}

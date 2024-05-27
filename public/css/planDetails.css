@@ -1,0 +1,149 @@
+.whole_card{
+    width: 100%;
+    margin: 40px 0px 40px 0px;
+    background-color: white;
+    box-shadow: 0px 0px 20px -3px rgba(170, 170, 170, 0.5);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 30px ;
+}
+.form_allinput{
+    width: 100%;
+    margin-bottom: 5px;
+}
+.all_input{
+    width: 100%;
+    display: flex;
+}
+.form_allinput{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.arr{
+    font-size: 23px;
+    cursor: pointer;
+    transition: all .3s ease-in-out;
+    color: gray;
+}
+.form_allinput input{
+    width: 30%;
+    margin-right: 10px;
+    padding: 3px 10px;
+    outline: none;
+    border-radius: 5px;
+    border: 1px solid rgb(212, 212, 212);
+}
+
+.form_allinput button i{
+    margin-right: 6px;
+    margin-left: 6px ;
+}
+
+.filterr{
+    background-color: rgb(12, 76, 186);
+    width: 90px;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all .3s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+.filterr:hover , .exportt:hover{
+    transform: scale(1.09);
+    opacity: 0.8;
+}
+.exportt{
+    background-color: green;
+    text-decoration: none;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all .3s ease-in-out;
+    padding: 0px 10px;
+}
+#staticcd{
+    display: none;
+}
+.staticc{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 30px;
+}
+.all_one_static{
+    width: 23%;
+    background-color: #f5f5f5;
+    border-radius: 10px;
+    margin-right: 10px;
+    margin-bottom: 20px;
+    padding: 10px 20px 15px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.one_staticc{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.one_staticc i{
+    font-size: 43px;
+    width: 30%;
+    color: rgb(12, 76, 186);
+}
+.staticc_info{
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+}
+.info_title{
+    font-size: 12px;
+    font-weight: bold;
+    color: rgb(52, 52, 52);
+    margin-bottom: 8px;
+    text-align: center;
+}
+.info_num{
+    color: rgb(2, 180, 2);
+}
+.export_btn{
+    background-color: transparent;
+    color: white;
+    font-size: 15px;
+    border: none;
+    width: 90px;
+    cursor: pointer;
+}
+#myElement {
+    display: none;
+}
+.box_shadoww{
+    box-shadow: 0px 0px 20px -3px rgba(170, 170, 170, 0.5);
+    border-radius: 8px;
+}
+@media screen and (max-width: 905px) {
+    .all_one_static{
+        width: 28%;
+    }
+}
+@media screen and (max-width: 758px) {
+    .all_one_static{
+        width: 48%;
+    }
+}
+@media screen and (max-width: 636px) {
+    .all_one_static{
+        width: 80%;
+    }
+}
+
