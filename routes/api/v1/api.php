@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Admin\AreaController;
+use App\Model\RewardItem;
 
 /*
 |--------------------------------------------------------------------------
@@ -265,7 +266,7 @@ Route::group(['namespace' => 'api\v1', 'prefix' => 'v1', 'middleware' => ['api_l
         Route::get('geocode-api', 'MapApiController@geocode_api');
     });
 
-     // Clear application link storage:
+    // Clear application link storage:
     Route::get('/linkstorage', function () {
         Artisan::call('storage:link');
         return 'link storage cache has been created';
@@ -293,5 +294,5 @@ Route::group(['namespace' => 'api\v1', 'prefix' => 'v1', 'middleware' => ['api_l
         Artisan::call('view:clear');
         return 'View cache has been cleared';
     });
-Route::get('url', [AreaController::class, 'url'])->name('url');
+    Route::get('url', [AreaController::class, 'url'])->name('url');
 });
