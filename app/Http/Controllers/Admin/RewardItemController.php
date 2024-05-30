@@ -104,6 +104,28 @@ class RewardItemController extends Controller
         //
     }
 
+    public function showProduct()
+    {
+        $rewardItem = RewardItem::products()->get();
+        if (!$rewardItem) {
+            return response()->json(['error' => "not found"]);
+        }
+
+        return $rewardItem;
+        return view('admin.product.list', compact('rewardItem'));
+    }
+
+    public function showBag()
+    {
+        $rewardItem = RewardItem::bags()->get();
+        if (!$rewardItem) {
+            return response()->json(['error' => "not found"]);
+        }
+
+        return $rewardItem;
+        return view('admin.product.list', compact('rewardItem'));
+    }
+
     /**
      * Show the form for editing the specified resource.
      *

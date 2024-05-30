@@ -15,6 +15,16 @@ class RewardItem extends Model
         "cost",
     ];
 
+    public function scopeProducts($query)
+    {
+        return $query->where('bag_id', null);
+    }
+
+    public function scopeBags($query)
+    {
+        return $query->where('product_id', null);
+    }
+
     public function product()
     {
         return $this->belongsTo(Product::class);

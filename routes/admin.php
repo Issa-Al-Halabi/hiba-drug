@@ -819,6 +819,9 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
 
         Route::group(['prefix' => 'reward-item', 'as' => 'reward-item.'], function () {
 
+            Route::get('/show/product', 'RewardItemController@showProduct')->name('showProduct');
+            Route::get('/show/bag', 'RewardItemController@showBag')->name('showBag');
+
             Route::post('/store/product', 'RewardItemController@storeProduct')->name('storeProduct');
             Route::post('/store/bag', 'RewardItemController@storeBag')->name('storeBag');
 
