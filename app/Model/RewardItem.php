@@ -15,6 +15,31 @@ class RewardItem extends Model
         "cost",
     ];
 
+    
+    public function getTypeId()
+    {
+        if ($this->product_id != null) {
+            return $this->product_id;
+        }
+        return $this->bag_id;
+    }
+
+    public function getType()
+    {
+        if ($this->product_id != null) {
+            return "product";
+        }
+        return "bag";
+    }
+
+    public function getPrice()
+    {
+        if ($this->product_id != null) {
+            return $this->product->unit_price;
+        }
+        return $this->bag->total_price_offer;
+    }
+
     public function scopeProducts($query)
     {
         return $query->where('bag_id', null);

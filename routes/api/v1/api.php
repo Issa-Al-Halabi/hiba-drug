@@ -258,6 +258,12 @@ Route::group(['namespace' => 'api\v1', 'prefix' => 'v1', 'middleware' => ['api_l
         Route::get('list', 'CouponController@coupons');
     });
 
+    // reward-item
+    Route::group(['prefix' => 'reward-item'], function () {
+        Route::get('/get-all', 'RewardItemController@getAll');
+        Route::post('/buy', 'RewardItemController@buy');
+    });
+
     //map api
     Route::group(['prefix' => 'mapapi'], function () {
         Route::get('place-api-autocomplete', 'MapApiController@place_api_autocomplete');
