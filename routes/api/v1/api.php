@@ -116,7 +116,7 @@ Route::group(['namespace' => 'api\v1', 'prefix' => 'v1', 'middleware' => ['api_l
         Route::post('update', 'PharmacyController@edit')->name('update'); //Done
     });
 
-    Route::group(['prefix' => 'pharmacy', 'middleware' => 'auth:api'], function () {
+    Route::group(['prefix' => 'pharmacy'], function () {
         Route::get('points', 'PharmacyController@pharmacy_points')->name('pharmacy_points'); //was
     });
 
