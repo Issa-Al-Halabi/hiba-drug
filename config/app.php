@@ -163,7 +163,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         App\Providers\SocialLoginServiceProvider::class,
         Madnest\Madzipper\MadzipperServiceProvider::class,
-
+        Laravel\Passport\PassportServiceProvider::class,
         /*
          * Package Service Providers...
          */
@@ -181,8 +181,8 @@ return [
         \App\Providers\PaymentConfigProvider::class,
         \App\Providers\ConfigServiceProvider::class,
         Laravelpkg\Laravelchk\LaravelchkServiceProvider::class,
-       /* Amirami\Localizator\ServiceProvider::class*/
-       Yajra\DataTables\DataTablesServiceProvider::class,
+        /* Amirami\Localizator\ServiceProvider::class*/
+        Yajra\DataTables\DataTablesServiceProvider::class,
     ],
 
     /*

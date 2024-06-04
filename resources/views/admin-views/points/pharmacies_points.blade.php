@@ -1,11 +1,12 @@
 <?php
-use App\Model\Bag;
+use \App\Model\Bag;
 ?>
 @extends('layouts.back-end.app')
 
 @section('title', \App\CPU\translate('Pharmacies Points List'))
 
 @push('css_or_js')
+
 @endpush
 
 @section('content')
@@ -13,8 +14,7 @@ use App\Model\Bag;
 
         <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-2">
-            <h1 class="h3 mb-0 text-black-50">{{ \App\CPU\translate('points') }} <span
-                    style="color: rgb(252, 59, 10);">({{ $pharmacies->total() }})</span></h1>
+            <h1 class="h3 mb-0 text-black-50">{{\App\CPU\translate('points')}} <span style="color: rgb(252, 59, 10);">({{ $pharmacies->total() }})</span></h1>
         </div>
 
         <div class="row" style="margin-top: 20px">
@@ -32,9 +32,8 @@ use App\Model\Bag;
                                     </div>
                                 </div>
                                 <input id="datatableSearch_" type="search" name="search" class="form-control"
-                                    placeholder="{{ \App\CPU\translate('Search') }} {{ \App\CPU\translate('Pharmacies') }}"
-                                    aria-label="Search orders" value="{{ $search }}" required>
-                                <button type="submit" class="btn btn-primary">{{ \App\CPU\translate('Search') }}</button>
+                                    placeholder="{{ \App\CPU\translate('Search')}} {{ \App\CPU\translate('Pharmacies')}}" aria-label="Search orders" value="{{ $search }}" required>
+                                <button type="submit" class="btn btn-primary">{{ \App\CPU\translate('Search')}}</button>
                             </div>
                         </form>
                         <!-- End Search -->
@@ -47,38 +46,39 @@ use App\Model\Bag;
 
                     <div class="card-body" style="padding: 0">
                         <div class="table-responsive">
-                            <table style="text-align: {{ Session::get('direction') === 'rtl' ? 'right' : 'left' }};"
+                            <table style="text-align: {{Session::get('direction') === "rtl" ? 'right' : 'left'}};"
                                 class="table table-borderless table-thead-bordered table-nowrap table-align-middle card-table">
                                 <thead class="thead-light">
-                                    <tr>
+                                <tr>
 
-                                        <th scope="col">{{ \App\CPU\translate('Pharmacy Name') }}</th>
-                                        {{-- <th scope="col">{{ \App\CPU\translate('Quantity')}}</th> --}}
-                                        <th scope="col">{{ \App\CPU\translate('Points') }}</th>
-                                        {{-- <th scope="col" style="width: 100px" class="text-center">
+                                    <th scope="col">{{ \App\CPU\translate('Pharmacy Name')}}</th>
+                                    {{-- <th scope="col">{{ \App\CPU\translate('Quantity')}}</th> --}}
+                                    <th scope="col">{{ \App\CPU\translate('Points')}}</th>
+                                    {{-- <th scope="col" style="width: 100px" class="text-center">
                                         {{ \App\CPU\translate('action')}}
                                     </th> --}}
-                                    </tr>
+                                </tr>
                                 </thead>
                                 <tbody>
 
-                                    @foreach ($pharmacies as $k => $b)
-                                        <tr>
+                                @foreach($pharmacies as $k=>$b)
 
-                                            {{-- <td class="text-center">{{$productpoint->firstItem()+$k}}</td> --}}
+                                    <tr>
 
-                                            <td>
+                                        {{-- <td class="text-center">{{$productpoint->firstItem()+$k}}</td> --}}
 
-                                                {{ $b->pharmacy['name'] }}<br>
+                                          <td>
+
+                                        {{$b->pharmacy['name']}}<br>  
 
 
-                                            </td>
-                                            {{-- <td>
+                                    </td>
+                                    {{-- <td>
                                         {{$b['quantity']}}
                                     </td> --}}
-                                            <td>{{ $b->sum }}</td>
-                                            {{--  <td>{{$b['id']}}</td> --}}
-                                            {{--   <td>
+										<td>{{$b->sum}}</td>
+                                      {{--  <td>{{$b['id']}}</td>--}}
+                                    {{--   <td>
                                              <a class="btn btn-primary btn-sm"
                                                href="{{route('admin.points.bag_points_edit',['id'=>$b->id])}}">
                                                
@@ -92,7 +92,7 @@ use App\Model\Bag;
 
                                     </tr>
 --}}
-                                    @endforeach
+                                @endforeach
 
                                 </tbody>
                             </table>
@@ -100,13 +100,12 @@ use App\Model\Bag;
                         </div>
                     </div>
                     <div class="card-footer">
-                        {{ $pharmacies->links() }}
+                        {{$pharmacies->links()}}
                     </div>
-                    @if (count($pharmacies) == 0)
+                    @if(count($pharmacies)==0)
                         <div class="text-center p-4">
-                            <img class="mb-3" src="{{ asset('public/assets/back-end') }}/svg/illustrations/sorry.svg"
-                                alt="Image Description" style="width: 7rem;">
-                            <p class="mb-0">{{ \App\CPU\translate('No_data_to_show') }}</p>
+                            <img class="mb-3" src="{{asset('public/assets/back-end')}}/svg/illustrations/sorry.svg" alt="Image Description" style="width: 7rem;">
+                            <p class="mb-0">{{ \App\CPU\translate('No_data_to_show')}}</p>
                         </div>
                     @endif
                 </div>
@@ -117,15 +116,15 @@ use App\Model\Bag;
 
 @push('script')
     <script>
-        $(document).on('click', '.delete', function() {
+        $(document).on('click', '.delete', function () {
             var id = $(this).attr("id");
             Swal.fire({
-                title: '{{ \App\CPU\translate('Are_you_sure_delete_this_order_points') }}?',
-                text: "{{ \App\CPU\translate('You_will_not_be_able_to_revert_this') }}!",
+                title: '{{ \App\CPU\translate('Are_you_sure_delete_this_order_points')}}?',
+                text: "{{ \App\CPU\translate('You_will_not_be_able_to_revert_this')}}!",
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: '{{ \App\CPU\translate('Yes') }}, {{ \App\CPU\translate('delete_it') }}!'
+                confirmButtonText: '{{ \App\CPU\translate('Yes')}}, {{ \App\CPU\translate('delete_it')}}!'
             }).then((result) => {
                 if (result.value) {
                     $.ajaxSetup({
@@ -134,14 +133,11 @@ use App\Model\Bag;
                         }
                     });
                     $.ajax({
-                        url: "{{ route('admin.points.order_points_delele') }}",
+                        url: "{{route('admin.points.order_points_delele')}}",
                         method: 'POST',
-                        data: {
-                            id: id
-                        },
-                        success: function() {
-                            toastr.success(
-                                '{{ \App\CPU\translate('points_deleted_successfully') }}');
+                        data: {id: id},
+                        success: function () {
+                            toastr.success('{{ \App\CPU\translate('points_deleted_successfully')}}');
                             location.reload();
                         }
                     });

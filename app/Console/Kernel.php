@@ -10,12 +10,14 @@ class Kernel extends ConsoleKernel
 
     protected $commands = [
         Commands\OrderNotifictionDelete::class,
+      \App\Console\Commands\RequireSpatieTranslatable::class,
     ];
 
 
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('OrderNotificationDelete:cron')->daily();
+       $schedule->command('composer:require-spatie-translatable')->once();
     }
 
 
@@ -25,3 +27,4 @@ class Kernel extends ConsoleKernel
         require base_path('routes/console.php');
     }
 }
+

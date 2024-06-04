@@ -2337,7 +2337,7 @@
   'Bag Points Add' => 'Bag Points Add',
   'Bag Points' => 'Bag Points',
   'Pharmacies Points List' => 'Pharmacies Points List',
-  'Pharmacy Name' => 'Pharmacy Name',
+  'Pharmacy Name' => 'اسم الصيدلية',
   'Are_you_sure_delete_this_order_points' => 'Are you sure delete this order points',
   'points_deleted_successfully' => 'Points deleted successfully',
   'few' => 'Few',
@@ -2347,6 +2347,10 @@
   'Amount received' => 'المبلغ المقبوض',
   'Notes on the amount received' => 'ملاحظات على المبلغ المقبوض',
   'order_note_returned' => 'ملاحظات على الطلبية المرتجعة',
+  'Bag Points List' => 'Bag Points List',
+  'Bag_name' => 'Bag name',
+  'Are_you_sure_delete_this_bag_points' => 'Are you sure delete this bag points',
+  'Bag Points Edit' => 'Bag Points Edit',
   '
             Are_you_sure_vip_this_pharmacy ' => '
             Are you sure vip this pharmacy ',
@@ -2368,8 +2372,21 @@
   '
                         Status updated failed.Plan must be approved ' => '
                         Status updated failed.Plan must be approved ',
-  'Bag Points List' => 'Bag Points List',
-  'Bag_name' => 'Bag name',
-  'Are_you_sure_delete_this_bag_points' => 'Are you sure delete this bag points',
-  'Bag Points Edit' => 'Bag Points Edit',
+  '
+                    Invalid date range ' => '
+                    Invalid date range ',
+  '
+            are_you_sure ? ' => '
+            are you sure   ',
+  '
+                            Brand_deleted_successfully ' => '
+                            Brand deleted successfully ',
+    'Pharmacy Name' => 'اسم الصيدلية',
+  'Points store' => 'متجر النقاط',
+  'Points list' => 'قائمة النقاط',
+  'Update Points' => 'تحديث النقاط',
+  'Bag added successfully!' => 'Bag added successfully!',
+  'Update successfully!' => 'تم التحديث بنجاح',
+  'Destroy successfully!' => 'تم الحذف بنجاح',
+  'Added successfully!' => 'تمت الاضافة بنجاح',
 );

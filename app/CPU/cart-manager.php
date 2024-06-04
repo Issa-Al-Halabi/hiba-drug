@@ -294,7 +294,10 @@ class CartManager
 
 
             //calculation pure price
-            if ($request['pure_price'] != 1) {
+             if ($request['pure_price'] == 2) {
+                $cart['price'] = 0;
+                $cart['pure_price'] = 0;
+            } else if ($request['pure_price'] != 1) {
                 $cart['price'] = $price;
                 $cart['pure_price'] = 0;
             } else {

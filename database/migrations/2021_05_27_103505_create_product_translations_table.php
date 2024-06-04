@@ -21,7 +21,6 @@ class CreateProductTranslationsTable extends Migration
             $table->string('key')->nullable();
             $table->text('value')->nullable();
         });
-
     }
 
     /**

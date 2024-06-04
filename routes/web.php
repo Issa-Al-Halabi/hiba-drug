@@ -14,6 +14,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Artisan;
 
 //for maintenance mode
 Route::get('maintenance-mode', 'Web\WebController@maintenance_mode')->name('maintenance-mode');
@@ -263,7 +264,9 @@ Route::get('liqpay-payment', 'LiqPayController@payment')->name('liqpay-payment')
 Route::any('liqpay-callback', 'LiqPayController@callback')->name('liqpay-callback');
 
 Route::get('/test', function (){
-    return view('welcome');
+    Artisan::call('migrate');
+  return "ok";
+
 });
 
 

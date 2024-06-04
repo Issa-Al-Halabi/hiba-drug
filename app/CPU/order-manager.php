@@ -147,7 +147,7 @@ class OrderManager
         $order->save();
     }
 
-    public static function stock_update_on_order_edit_change($detail, $order_id, $qtyNew, $qtyOfferNew,$priceNew)
+    public static function stock_update_on_order_edit_change($detail, $order_id, $qtyNew, $qtyOfferNew, $priceNew)
     {
         $product = Product::find($detail['product_id']);
         $type = $detail['variant'];
@@ -353,11 +353,11 @@ class OrderManager
             'created_at' => now(),
             'updated_at' => now(),
         ];
-      
+
         $order_id = DB::table('orders')->insertGetId($or);
         foreach (CartManager::get_cart($data['cart_group_id']) as $c) {
             if ($c->order_type == "bag") {
-                $bagProducts=BagServices::getProductsBybag($c['product_id']);
+                $bagProducts = BagServices::getProductsBybag($c['product_id']);
                 $bagId = $c->product_id;
                 $or_dd = [
                     'order_id' => $OrderId,
@@ -379,68 +379,67 @@ class OrderManager
             } else {
 
                 $product = Product::where(['id' => $c['product_id']])->first();
-              	if($product) {if ($c['pure_price'] == 1) {
-                    $total_qty = 0;
-                    $offerType = 'no offer';
-                    $pure_price = 1;
-                } else {
-                    $total_qty = OrderManager::featured_offer_calculation($product->q_featured_offer, $product->featured_offer, $c['quantity']);
-                    ($total_qty != 0) ? $offerType = 'featured' : $offerType = 'no offer';
-                    if ($total_qty == 0) {
-                        $total_qty = OrderManager::normal_offer_calculation($product->q_normal_offer, $product->normal_offer, $c['quantity']);
-                        ($total_qty != 0) ? $offerType = 'normal' : $offerType = 'no offer';
-                    }
-                    $pure_price = 0;
-                }
-
-                $pharmacy = Pharmacy::where('id', $user->id)->get()->first();
-                OrderManager::products_points($user->id, $product, $order_id, $c['quantity']);
-
-                $or_d = [
-                    'order_id' => $order_id,
-                    'product_id' => $c['product_id'],
-                    'seller_id' => $c['seller_id'],
-                    'product_details' => $product,
-                    'qty' => $c['quantity'],
-                    'total_qty' => $total_qty,
-                    'offerType' => $offerType,
-                    'price' => $c['price'],
-                    'tax' => $c['tax'] * $c['quantity'],
-                    'discount' => $c['discount'] * $c['quantity'],
-                    'discount_type' => 'discount_on_product',
-                    'variant' => $c['variant'],
-                    'variation' => $c['variations'],
-                    'delivery_status' => 'pending',
-                    'shipping_method_id' => null,
-                    'pure_price' => $pure_price,
-                    'payment_status' => 'unpaid',
-                    'brand_id' => $product->brand_id,
-                    'created_at' => now(),
-                    'updated_at' => now()
-                ];
-
-                if ($c['variant'] != null) {
-                    $type = $c['variant'];
-                    $var_store = [];
-                    foreach (json_decode($product['variation'], true) as $var) {
-                        if ($type == $var['type']) {
-                            $var['qty'] -= $c['quantity'];
+                if ($product) {
+                    if ($c['pure_price'] == 1) {
+                        $total_qty = 0;
+                        $offerType = 'no offer';
+                        $pure_price = 1;
+                    } else {
+                        $total_qty = OrderManager::featured_offer_calculation($product->q_featured_offer, $product->featured_offer, $c['quantity']);
+                        ($total_qty != 0) ? $offerType = 'featured' : $offerType = 'no offer';
+                        if ($total_qty == 0) {
+                            $total_qty = OrderManager::normal_offer_calculation($product->q_normal_offer, $product->normal_offer, $c['quantity']);
+                            ($total_qty != 0) ? $offerType = 'normal' : $offerType = 'no offer';
                         }
-                        array_push($var_store, $var);
+                        $pure_price = 0;
                     }
-                    Product::where(['id' => $product['id']])->update([
-                        'variation' => json_encode($var_store),
-                    ]);
-                }
 
-                Product::where(['id' => $product['id']])->update([
-                    'current_stock' => $product['current_stock'] - $c['quantity'] - $total_qty
-                ]);
-                DB::table('order_details')->insert($or_d);
+                    $pharmacy = Pharmacy::where('id', $user->id)->get()->first();
+                    OrderManager::products_points($user->id, $product, $order_id, $c['quantity']);
+
+                    $or_d = [
+                        'order_id' => $order_id,
+                        'product_id' => $c['product_id'],
+                        'seller_id' => $c['seller_id'],
+                        'product_details' => $product,
+                        'qty' => $c['quantity'],
+                        'total_qty' => $total_qty,
+                        'offerType' => $offerType,
+                        'price' => $c['price'],
+                        'tax' => $c['tax'] * $c['quantity'],
+                        'discount' => $c['discount'] * $c['quantity'],
+                        'discount_type' => 'discount_on_product',
+                        'variant' => $c['variant'],
+                        'variation' => $c['variations'],
+                        'delivery_status' => 'pending',
+                        'shipping_method_id' => null,
+                        'pure_price' => $pure_price,
+                        'payment_status' => 'unpaid',
+                        'brand_id' => $product->brand_id,
+                        'created_at' => now(),
+                        'updated_at' => now()
+                    ];
+
+                    if ($c['variant'] != null) {
+                        $type = $c['variant'];
+                        $var_store = [];
+                        foreach (json_decode($product['variation'], true) as $var) {
+                            if ($type == $var['type']) {
+                                $var['qty'] -= $c['quantity'];
+                            }
+                            array_push($var_store, $var);
+                        }
+                        Product::where(['id' => $product['id']])->update([
+                            'variation' => json_encode($var_store),
+                        ]);
+                    }
+
+                    Product::where(['id' => $product['id']])->update([
+                        'current_stock' => $product['current_stock'] - $c['quantity'] - $total_qty
+                    ]);
+                    DB::table('order_details')->insert($or_d);
                 }
-                
             }
-          
         }
 
 
@@ -552,9 +551,8 @@ class OrderManager
                 }
             }
         } catch (\Exception $exception) {
-          
         }
-          
+
         return $order_id;
     }
 
@@ -564,6 +562,8 @@ class OrderManager
         # code...
         $points = 0;
         $productpoint = ProductPoint::wheretype('bag')->get();
+        //	$pharmacy_points_id = Pharmacy::where('user_id', $pharmacy_id)->first();///
+        //  $id_of_pharmacy=$pharmacy_points_id ->id;////
         foreach ($productpoint as $p) {
 
             foreach ($bags as $product) {
@@ -582,6 +582,7 @@ class OrderManager
             } else {
                 $pharmacy_points = new PharmaciesPoints();
                 $pharmacy_points->pharmacy_id = $pharmacy_id;
+                //	$pharmacy_points->id_of_pharmacy = $id_of_pharmacy;/////
                 $pharmacy_points->points = $points;
                 $pharmacy_points->save();
             }
@@ -590,11 +591,15 @@ class OrderManager
     }
 
 
+
     public function order_points($pharmacy_id, $order_total_price)
     {
+
         # code...
         $points = 0;
         $orderpoint = OrdersPoints::get();
+        //$pharmacy_points_id = Pharmacy::where('user_id', $pharmacy_id)->first();///
+        //$id_of_pharmacy=$pharmacy_points_id ->id;////
         foreach ($orderpoint as $p) {
 
 
@@ -610,6 +615,7 @@ class OrderManager
             } else {
                 $pharmacy_points = new PharmaciesPoints();
                 $pharmacy_points->pharmacy_id = $pharmacy_id;
+                //$pharmacy_points->id_of_pharmacy = $id_of_pharmacy;/////
                 $pharmacy_points->points = $points;
                 $pharmacy_points->save();
             }
@@ -665,38 +671,50 @@ class OrderManager
     }
 
 
+
     public static  function products_points($pharmacy_id, $product, $order_id, $product_quantity)
     {
-        # code...
+
+        $pharmacy_points_id = Order::where('id', $order_id)->first(); ///
+        $userType = $pharmacy_points_id->customer_type; ////
         $points = 0;
-        $productpoint = ProductPoint::wheretype('product')->get();
-        foreach ($productpoint as $p) {
+        if ($userType == "pharmacist") {
 
-            $quantity = (int)($product_quantity / $p->quantity);
+            $points = 0;
+            $productpoint = ProductPoint::wheretype('product')->get();
+            $pharmacy_po_id = Pharmacy::where('user_id', $pharmacy_id)->first(); ///
+            $id_of_pharmacy = $pharmacy_po_id->id; ///
+            foreach ($productpoint as $p) {
 
-            $idx = json_decode($p->type_id);
-            if (in_array($product->id, $idx)) {
-                $points = $points + $p->points;
+                $quantity = (int)($product_quantity / $p->quantity);
+
+                $idx = json_decode($p->type_id);
+                if (in_array($product->id, $idx)) {
+                    $points = $points + $p->points;
+                }
+            }
+
+            if ($points != 0) {
+                $points = $points * $quantity;
+                $pharmacy_points = new PharmaciesPoints();
+                $pharmacy_points->points = $pharmacy_points->points + $points;
+                $pharmacy_points->pharmacy_id = $pharmacy_id;
+                $pharmacy_points->id_of_pharmacy = $id_of_pharmacy;
+                $pharmacy_points->point_order_id = $order_id;
+                $pharmacy_points->points = $points;
+                $pharmacy_points->save();
             }
         }
 
-        if ($points != 0) {
-            $points = $points * $quantity;
-            $pharmacy_points = new PharmaciesPoints();
-
-            $pharmacy_points->points = $pharmacy_points->points + $points;
-
-            $pharmacy_points->pharmacy_id = $pharmacy_id;
-            $pharmacy_points->point_order_id = $order_id;
-            $pharmacy_points->points = $points;
-            $pharmacy_points->save();
-        }
         return $points;
     }
 
 
+
+
     public static function getPharmacyName($userType, $id)
     {
+
         if ($userType == "salesman") {
             $details = Pharmacy::where('id', '=', $id)->get()->first();
             if (isset($details))

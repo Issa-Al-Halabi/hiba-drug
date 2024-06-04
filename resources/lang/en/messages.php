@@ -2560,4 +2560,10 @@
   '
                             Brand_deleted_successfully ' => '
                             Brand deleted successfully ',
+    'Points store' => 'Points store',
+  'Points list' => 'Points list',
+  'Update Points' => 'Update Points',
+  'Update successfully!' => 'Update successfully!',
+  'Destroy successfully!' => 'Destroy successfully!',
+  'Added successfully!' => 'Added successfully!',
 );

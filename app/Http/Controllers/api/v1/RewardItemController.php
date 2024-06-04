@@ -16,8 +16,14 @@ class RewardItemController extends Controller
     {
         try {
             $data = [];
-            $data["products"] = RewardItem::products()->get();
-            $data["bags"] = RewardItem::bags()->get();
+            $data["products"] = RewardItem::products()->with('product')->get()->map(function ($model) {
+                $model["product"]["cost"] = $model->cost;
+                return $model["product"];
+            });
+            $data["bags"] = RewardItem::bags()->with('bag')->get()->map(function ($model) {
+                $model["bag"]["cost"] = $model->cost;
+                return $model["bag"];
+            });
         } catch (\Exception $e) {
             return response()->json(['errors' => $e], 403);
         }
@@ -62,7 +68,7 @@ class RewardItemController extends Controller
                 'quantity' => $request->quantity,
                 'type' => $rewardItem->getType(),
                 // 'pure_price' => $rewardItem->getPrice(),
-                'pure_price' => 0,
+                'pure_price' => 2,
             ]);
             $add_to_cart = $apiUserController->add_to_cart($request);
             $add_to_cart_response = json_decode(collect($add_to_cart)->toJson(), true);

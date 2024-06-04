@@ -8,15 +8,19 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+//use Spatie\Translatable\HasTranslations;
 
 class Product extends Model
 {
+  // use HasTranslations;
+  // public $translatable = ['name', 'details'];
+
     protected $appends = ['category_names'];
     protected $casts = [
         'user_id' => 'integer',
         'brand_id' => 'integer',
         'min_qty' => 'integer',
-        'published' => 'integer',	
+        'published' => 'integer',
         'tax' => 'float',
         'unit_price' => 'float',
         'status' => 'integer',
@@ -31,48 +35,48 @@ class Product extends Model
         'purchase_price' => 'float',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
-        'shipping_cost'=>'float',
-        'pure_price_status'=>'integer',
-        'multiply_qty'=> 'integer',
-        'temp_shipping_cost'=>'float',
-        'is_shipping_cost_updated'=>'integer',
-        'q_normal_offer'=>'integer',
-        'normal_offer'=>'integer',
-        'q_featured_offer'=>'integer',
-        'featured_offer'=>'integer',
-        'demand_limit'=>'integer',
-        'reviews_count'=>'integer',
+        'shipping_cost' => 'float',
+        'pure_price_status' => 'integer',
+        'multiply_qty' => 'integer',
+        'temp_shipping_cost' => 'float',
+        'is_shipping_cost_updated' => 'integer',
+        'q_normal_offer' => 'integer',
+        'normal_offer' => 'integer',
+        'q_featured_offer' => 'integer',
+        'featured_offer' => 'integer',
+        'demand_limit' => 'integer',
+        'reviews_count' => 'integer',
     ];
 
-    protected $hidden=[
-        "category_ids","video_provider","video_url","colors","variant_product","attributes","choice_options",
-        "variation","published","tax","tax_type","discount","discount_type","free_shipping","attachment","created_at",
-        "updated_at","meta_title","meta_description","meta_image","request_status","denied_note","shipping_cost",
-        "multiply_qty","temp_shipping_cost","is_shipping_cost_updated","store_id","production_date","num_id","translations"
+    protected $hidden = [
+        "category_ids", "video_provider", "video_url", "colors", "variant_product", "attributes", "choice_options",
+        "variation", "published", "tax", "tax_type", "discount", "discount_type", "free_shipping", "attachment", "created_at",
+        "updated_at", "meta_title", "meta_description", "meta_image", "request_status", "denied_note", "shipping_cost",
+        "multiply_qty", "temp_shipping_cost", "is_shipping_cost_updated", "store_id", "production_date", "num_id", "translations"
     ];
 
     public function getCategoryNamesAttribute()
     {
-       	$category_names = "_";
-      
-      	$category_ids = json_decode($this->category_ids, true);
+        $category_names = "_";
+
+        $category_ids = json_decode($this->category_ids, true);
         $ids = array_column($category_ids, 'id');
 
         $categories = Category::whereIn('id', $ids)->get();
 
         foreach ($categories as $category) {
-          $category_names = $category->name;
+            $category_names = $category->name;
         }
-      
-       return $category_names;
+
+        return $category_names;
     }
-  
+
 
     public function translations()
     {
-        return $this->morphMany('App\Model\Translation', 'translationable');
+        return $this->morphMany(Translation::class, 'translationable');
     }
-  
+
 
     public function scopeActive($query)
     {
@@ -134,16 +138,14 @@ class Product extends Model
     public function order_delivered()
     {
         return $this->hasMany(OrderDetail::class, 'product_id')
-                        ->where('delivery_status','delivered');
-
+            ->where('delivery_status', 'delivered');
     }
 
 
     public function order_delivered_offers()
     {
         return $this->hasMany(OrderDetail::class, 'product_id')
-                        ->where('delivery_status','delivered');
-
+            ->where('delivery_status', 'delivered');
     }
 
     public function wish_list()
@@ -155,8 +157,12 @@ class Product extends Model
     {
         if (strpos(url()->current(), '/admin') || strpos(url()->current(), '/seller')) {
             return $name;
-        }
-        return $this->translations[0]->value ?? $name;
+         }
+         return $this->translations[0]->value ?? $name;
+     //   if (app()->getLocale() == "en" && $name == "") {
+      //      return $this->getTranslation("name", "ar");
+      //  }
+      //  return $name;
     }
 
     public function getDetailsAttribute($detail)
@@ -172,12 +178,12 @@ class Product extends Model
         parent::boot();
         static::addGlobalScope('translate', function (Builder $builder) {
             $builder->with(['translations' => function ($query) {
-                if (strpos(url()->current(), '/api')){
+                if (strpos(url()->current(), '/api')) {
                     return $query->where('locale', App::getLocale());
-                }else{
+                } else {
                     return $query->where('locale', Helpers::default_lang());
                 }
-            },'reviews'])->withCount('reviews');
+            }, 'reviews'])->withCount('reviews');
         });
     }
 }

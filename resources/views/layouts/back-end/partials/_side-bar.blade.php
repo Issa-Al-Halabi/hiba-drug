@@ -536,6 +536,29 @@
                             </ul>
                         </li>
 
+                      <!--nwwee-->
+                      <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/store*') ? 'active' : '' }}">
+                            <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle" href="javascript:">
+                                <i class="tio-shop nav-icon"></i>
+                                <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{{
+                                    \App\CPU\translate('Points store') }}</span>
+                            </a>
+                            <ul class="js-navbar-vertical-aside-submenu nav nav-sub" style="display: {{ Request::is('admin/store*') ? 'block' : 'none' }}">
+                                <li class="nav-item {{ Request::is('admin/store/add-new') ? 'active' : '' }}">
+                                    <a class="nav-link " href="{{ route('admin.reward-item.showProduct') }}">
+                                        <span class="tio-circle nav-indicator-icon"></span>
+                                        <span class="text-truncate">{{ \App\CPU\translate('Products') }}</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item {{ Request::is('admin/store/add-new') ? 'active' : '' }}">
+                                    <a class="nav-link " href="{{ route('admin.reward-item.showBag') }}">
+                                        <span class="tio-circle nav-indicator-icon"></span>
+                                        <span class="text-truncate">{{ \App\CPU\translate('Bags') }}</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                      <!--nwwee-->
 
                         <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/store*') ? 'active' : '' }}">
                             <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle" href="javascript:">

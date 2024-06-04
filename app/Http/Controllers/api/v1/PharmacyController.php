@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers\api\v1;
-
 use App\Http\Controllers\Controller;
 use App\Pharmacy;
 use App\CPU\Helpers;
@@ -17,7 +16,8 @@ class PharmacyController extends Controller
     {
         $query_param = [];
         $search = $request['search'];
-        if ($request->has('search')) {
+        if ($request->has('search'))
+        {
             $key = explode(' ', $request['search']);
             $pharmacies = Pharmacy::where(function ($q) use ($key) {
                 foreach ($key as $value) {
@@ -25,11 +25,11 @@ class PharmacyController extends Controller
                 }
             });
             $query_param = ['search' => $request['search']];
-        } else {
+        }else{
             $pharmacies = new Pharmacy();
         }
         $pharmacies = $pharmacies->latest()->paginate(Helpers::pagination_limit())->appends($query_param);
-        return view('admin-views.pharmacy.list', compact('pharmacies', 'search'));
+        return view('admin-views.pharmacy.list', compact('pharmacies','search'));
     }
 
 
@@ -37,7 +37,7 @@ class PharmacyController extends Controller
     {
         //
         $pharmacies = Pharmacy::all();
-        return view('admin-views.pharmacy.list')->with('pharmacies', $pharmacies);
+        return view('admin-views.pharmacy.list')->with('pharmacies',$pharmacies);
     }
 
 
@@ -45,23 +45,24 @@ class PharmacyController extends Controller
     public function store(Request $request)
     {
         $pharmacy = new Pharmacy();
-        try {
-            $pharmacy->name = $request->name;
-            $pharmacy->lat = $request->lat;
-            $pharmacy->lan = $request->lan;
+        try{
+            $pharmacy->name=$request->name;
+            $pharmacy->lat=$request->lat;
+            $pharmacy->lan=$request->lan;
             $pharmacy->city = $request->city;
             $pharmacy->region = $request->region;
 
             $pharmacy->user_id = $request->user_id;
-            $user_type = User::where('id', $pharmacy->user_id)->pluck('user_type')->first();
+            $user_type = User::where('id',$pharmacy->user_id)->pluck('user_type')->first();
 
-            $pharmacy->user_type_id = $user_type;
+            $pharmacy->user_type_id=$user_type;
 
             $pharmacy->save();
 
-            return response()->json('Pharmacy Created', 200);
-        } catch (Exception $ex) {
-            return response()->json('Pharmacy Not Created', 200);
+            return response()->json('Pharmacy Created',200);
+        }
+        catch(Exception $ex){
+            return response()->json('Pharmacy Not Created',200);
         }
     }
 
@@ -75,25 +76,28 @@ class PharmacyController extends Controller
 
     public function edit(Request $request)
     {
-        try {
+        try{
             $pharmacy = Pharmacy::find($request->pharmacy_id);
 
-            $pharmacy->name = $request->name;
-            $pharmacy->lat = $request->lat;
-            $pharmacy->lan = $request->lan;
+            $pharmacy->name=$request->name;
+            $pharmacy->lat=$request->lat;
+            $pharmacy->lan=$request->lan;
             $pharmacy->city = $request->city;
             $pharmacy->region = $request->region;
             $pharmacy->user_id = $request->user_id;
 
-            $user_type = User::where('id', $pharmacy->user_id)->pluck('user_type')->first();
+            $user_type = User::where('id',$pharmacy->user_id)->pluck('user_type')->first();
 
-            $pharmacy->user_type_id = $user_type;
+            $pharmacy->user_type_id=$user_type;
 
             $pharmacy->update();
-            return response()->json('Pharmacy Updated', 200);
-        } catch (Exception $ex) {
-            return response()->json('Pharmacy Not Updated', 200);
+            return response()->json('Pharmacy Updated',200);
         }
+        catch(Exception $ex){
+            return response()->json('Pharmacy Not Updated',200);
+        }
+
+
     }
 
 
@@ -118,13 +122,16 @@ class PharmacyController extends Controller
         $user = Helpers::get_customer($request);
 
         try {
-            $points = DB::table('pharmacies_points')->where('pharmacy_id', $user->id)->sum('points');
+        $points = DB::table('pharmacies_points')->where('pharmacy_id',$user->id)->sum('points');
 
-            $points = (int)$points;
+        $points = (int)$points;
         } catch (\Exception $e) {
             return response()->json(['errors' => $e], 403);
         }
 
         return response()->json($points, 200);
+
     }
+
+
 }

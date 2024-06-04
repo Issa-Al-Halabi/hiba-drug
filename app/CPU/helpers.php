@@ -478,89 +478,89 @@ class Helpers
         return $result;
     }
 
-public static function send_push_notif_to_topic($data)
-{
-    $key = BusinessSetting::where(['type' => 'push_notification_key'])->first()->value;
+    public static function send_push_notif_to_topic($data)
+    {
+        $key = BusinessSetting::where(['type' => 'push_notification_key'])->first()->value;
 
-    $url = "https://fcm.googleapis.com/fcm/send";
-    $header = [
-        "authorization: key=" . $key,
-        "content-type: application/json",
-    ];
-
-    // جلب جميع الرموز الصحيحة (غير الفارغة)
-    $tokens = User::whereNotNull('cm_firebase_token')->pluck('cm_firebase_token')->toArray();
-
-    if (empty($tokens)) {
-        // لا توجد رموز صالحة، لا يوجد شيء لإرساله
-        return false;
-    }
-
-    $chunkedTokens = array_chunk($tokens, 500); // تقسيم الرموز إلى مجموعات من 500
-
-    $image = asset('storage/app/public/notification') . '/' . $data['image'];
-
-    foreach ($chunkedTokens as $tokensChunk) {
-        $postdata = [
-            "registration_ids" => $tokensChunk,
-            "data" => [
-                "title" => $data['title'],
-                "body" => $data['description'],
-                "title_loc_key" => $data['order_id'],
-                "image" => $image,
-                "is_read" => 0
-            ],
-            "notification" => [
-                "title" => $data['title'],
-                "body" => $data['description'],
-                "image" => $image,
-                "title_loc_key" => $data['order_id'],
-                "is_read" => 0,
-                "icon" => "new",
-                "sound" => "default"
-            ]
+        $url = "https://fcm.googleapis.com/fcm/send";
+        $header = [
+            "authorization: key=" . $key,
+            "content-type: application/json",
         ];
 
-        $postdata = json_encode($postdata);
 
-        $ch = curl_init();
-        $timeout = 120;
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+        $tokens = User::whereNotNull('cm_firebase_token')->pluck('cm_firebase_token')->toArray();
 
-        $result = curl_exec($ch);
-        $response = json_decode($result, true);
+        if (empty($tokens)) {
 
-        if (curl_errno($ch)) {
-            // معالجة خطأ curl
-            $error_msg = curl_error($ch);
-            // يمكن تسجيل الخطأ أو معالجته حسب متطلبات التطبيق
+            return false;
         }
 
-        curl_close($ch);
+        $chunkedTokens = array_chunk($tokens, 500); 
 
-        if ($result === FALSE) {
-            // معالجة الفشل
-            return false; // أو معالجة حالة الفشل حسب الحاجة
-        }
+        $image = asset('storage/app/public/notification') . '/' . $data['image'];
 
-        // تنظيف الرموز غير الصالحة بناءً على استجابة FCM
-        if (isset($response['results'])) {
-            foreach ($response['results'] as $index => $res) {
-                if (isset($res['error']) && $res['error'] == 'InvalidRegistration') {
-                    // إزالة الرمز غير الصالح من قاعدة البيانات
-                    User::where('cm_firebase_token', $tokensChunk[$index])->update(['cm_firebase_token' => null]);
+        foreach ($chunkedTokens as $tokensChunk) {
+            $postdata = [
+                "registration_ids" => $tokensChunk,
+                "data" => [
+                    "title" => $data['title'],
+                    "body" => $data['description'],
+                    "title_loc_key" => $data['order_id'],
+                    "image" => $image,
+                    "is_read" => 0
+                ],
+                "notification" => [
+                    "title" => $data['title'],
+                    "body" => $data['description'],
+                    "image" => $image,
+                    "title_loc_key" => $data['order_id'],
+                    "is_read" => 0,
+                    "icon" => "new",
+                    "sound" => "default"
+                ]
+            ];
+
+            $postdata = json_encode($postdata);
+
+            $ch = curl_init();
+            $timeout = 120;
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+
+            $result = curl_exec($ch);
+            $response = json_decode($result, true);
+
+            if (curl_errno($ch)) {
+
+                $error_msg = curl_error($ch);
+
+            }
+
+            curl_close($ch);
+
+            if ($result === FALSE) {
+
+                return false; 
+            }
+
+
+            if (isset($response['results'])) {
+                foreach ($response['results'] as $index => $res) {
+                    if (isset($res['error']) && $res['error'] == 'InvalidRegistration') {
+
+                        User::where('cm_firebase_token', $tokensChunk[$index])->update(['cm_firebase_token' => null]);
+                    }
                 }
             }
         }
-    }
 
-    return true; // أو إعادة نوع من ملخص النتائج
-}
+        return true; 
+    }
 
 
 

@@ -4,8 +4,8 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Admin\AreaController;
-use App\Model\RewardItem;
-
+use App\Model\Product;
+use App\CPU\Helpers;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -257,7 +257,7 @@ Route::group(['namespace' => 'api\v1', 'prefix' => 'v1', 'middleware' => ['api_l
         Route::get('apply', 'CouponController@apply');
         Route::get('list', 'CouponController@coupons');
     });
-
+  
     // reward-item
     Route::group(['prefix' => 'reward-item'], function () {
         Route::get('/get-all', 'RewardItemController@getAll');
@@ -272,7 +272,7 @@ Route::group(['namespace' => 'api\v1', 'prefix' => 'v1', 'middleware' => ['api_l
         Route::get('geocode-api', 'MapApiController@geocode_api');
     });
 
-    // Clear application link storage:
+     // Clear application link storage:
     Route::get('/linkstorage', function () {
         Artisan::call('storage:link');
         return 'link storage cache has been created';
@@ -300,5 +300,25 @@ Route::group(['namespace' => 'api\v1', 'prefix' => 'v1', 'middleware' => ['api_l
         Artisan::call('view:clear');
         return 'View cache has been cleared';
     });
-    Route::get('url', [AreaController::class, 'url'])->name('url');
+Route::get('url', [AreaController::class, 'url'])->name('url');
+
+
+    Route::get('/test', function () {
+     //  $user = auth('customer')->user();
+    // $user = auth('admin')->check();
+     // return $user;
+      $product = Product::find(38);
+        // return $product->translations;
+        // return $product;
+        app()->setLocale("en");
+        // return app()->getLocale();
+        return $product->name;
+    });
+  
+    Route::get('/test1', function () {
+      Artisan::call('config:clear');
+      Artisan::call('key:generate');
+      
+      return 'config:clear command executed!';
+    });
 });

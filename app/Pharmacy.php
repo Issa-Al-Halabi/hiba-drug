@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+
 class Pharmacy extends Model
 {
     use HasFactory;
@@ -14,4 +15,5 @@ class Pharmacy extends Model
     public function customer(){
         return $this->belongsTo(User::class,'user_id');
     }
+
 }

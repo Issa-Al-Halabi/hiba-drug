@@ -1,4 +1,4 @@
-@extends('layouts.back-end.app')
+	@extends('layouts.back-end.app')
 
 @section('title', \App\CPU\translate('Dashboard'))
 
@@ -39,8 +39,12 @@
     </style>
 @endpush
 
+	
 @section('content')
-    @if(auth('admin')->user()->admin_role_id==1 || \App\CPU\Helpers::module_permission_check('dashboard'))
+
+
+
+    @if(auth('admin')->check() && (auth('admin')->user()->admin_role_id==1 || \App\CPU\Helpers::module_permission_check('dashboard')))
         <div class="content container-fluid">
             <!-- Page Header -->
             <div class="page-header" style="padding-bottom: 0!important;border-bottom: 0!important;margin-bottom: 1.25rem!important;">
@@ -346,7 +350,7 @@
             <div class="page-header">
                 <div class="row align-items-center">
                     <div class="col-12 mb-2 mb-sm-0">
-                        <h3 class="text-center" style="color: gray">{{\App\CPU\translate('hi')}} {{auth('admin')->user()->name}}, {{\App\CPU\translate('welcome_to_dashboard')}}.</h3>
+                        <h3 class="text-center" style="color: gray">{{\App\CPU\translate('hi')}} @if(auth('admin')->check()) {{auth('admin')->user()->name}}@endif, {{\App\CPU\translate('welcome_to_dashboard')}}.</h3>
                     </div>
                 </div>
             </div>

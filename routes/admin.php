@@ -7,19 +7,19 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
     Route::get('/', function () {
         return redirect()->route('admin.auth.login');
     });
-
-    Route::get('/test', function () {
+  
+   Route::get('/test', function () {
         return csrf_token();
     })->name('test');
+
     Route::get('/testdate2', function () {
+ //echo Artisan::call('optimize:clear');
+//phpinfo();
+//date_default_timezone_set('Asia/Damascus');   
+//phpinfo();
+//echo date('Y-m-d H:i:s');
 
-        //echo Artisan::call('optimize:clear');
-        //phpinfo();
-        //date_default_timezone_set('Asia/Damascus');   
-        //phpinfo();
-        //echo date('Y-m-d H:i:s');
-
-    });
+ });
 
     /*authentication*/
     Route::group(['namespace' => 'Auth', 'prefix' => 'auth', 'as' => 'auth.'], function () {
@@ -307,7 +307,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
             //sale report inhouse
             Route::get('inhoue-product-sale', 'InhouseProductSaleController@index')->name('inhoue-product-sale');
             Route::get('generateExcel', 'InhouseProductSaleController@generateExcel')->name('generateExcel');
-            Route::get('generateExcelBag', 'InhouseProductSaleController@generateExcelBag')->name('generateExcelBag');
+          	Route::get('generateExcelBag', 'InhouseProductSaleController@generateExcelBag')->name('generateExcelBag');
             Route::get('seller-product-sale', 'SellerProductSaleReportController@index')->name('seller-product-sale');
         });
 
@@ -621,7 +621,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
         //order management
         Route::group(['prefix' => 'orders', 'as' => 'orders.', 'middleware' => ['module:order_management']], function () {
             Route::get('list/{status}', 'OrderController@list')->name('list');
-            Route::get('list/{status}/generate_excel_report', 'OrderController@generate_excel_report')->name('generate_excel_report');
+          	Route::get('list/{status}/generate_excel_report', 'OrderController@generate_excel_report')->name('generate_excel_report');
             Route::get('details/{id}', 'OrderController@details')->name('details');
             Route::post('status', 'OrderController@status')->name('status');
             Route::post('payment-status', 'OrderController@payment_status')->name('payment-status');
@@ -779,7 +779,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
             Route::post('work-plan/task/store/{id}', 'WorkPlanController@work_plan_task_store')->name('work-plan-task-store');
             Route::get('work-plan/report', 'WorkPlanController@work_plans_report')->name('work-plans-report');
             Route::any('plan/set-date', 'WorkPlanController@plan_set_date')->name('plan-set-date');
-            Route::get('plan/generate_excel_report', 'WorkPlanController@generate_excel_report')->name('generate_excel_report');
+          	Route::get('plan/generate_excel_report', 'WorkPlanController@generate_excel_report')->name('generate_excel_report');
             Route::post('work-plan/plan/report/details/{id}', 'WorkPlanController@plan_details_report')->name('plan-details-report');
 
             Route::get('work-plan/plan/archive/remove/{id}', 'WorkPlanController@plan_archive_remove')->name('plan-archive-remove');
@@ -798,6 +798,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
             Route::post('assign-group/{id}', 'SalesManController@assign_group')->name('assign-group');
 
             Route::get('pharmacies/assigned', 'SalesManController@pharmacies_assigned')->name('pharmacies-assigned');
+
         });
 
         // sales man report
@@ -807,6 +808,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
             Route::get('orders/team/{team}', 'SalesManReportController@getOrdersTeamReport')->name('orders-team');
             Route::get('orders/team/ajax/{team}', 'SalesManReportController@getOrdersTeamReportAjax')->name('orders-team-ajax');
             Route::get('orders/team/seller/{sellerId}', 'SalesManReportController@getOrdersSellerOfTeamReport')->name('orders-seller-team');
+
         });
 
 
@@ -816,7 +818,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
             Route::post('/image-upload', 'FileManagerController@upload')->name('image-upload');
             Route::delete('/delete/{file_path}', 'FileManagerController@destroy')->name('destroy');
         });
-
+      /*
         Route::group(['prefix' => 'reward-item', 'as' => 'reward-item.'], function () {
 
             Route::get('/show/product', 'RewardItemController@showProduct')->name('showProduct');
@@ -830,5 +832,27 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
 
             Route::post('/delete/{id}', 'RewardItemController@destroy')->name('destroy');
         });
+        */
+         Route::group(['prefix' => 'reward-item', 'as' => 'reward-item.'], function () {
+
+            Route::get('/show/product', 'RewardItemController@showProduct')->name('showProduct');
+            Route::get('/show/bag', 'RewardItemController@showBag')->name('showBag');
+
+            Route::post('/store/product', 'RewardItemController@storeProduct')->name('storeProduct');
+            Route::get('/store/product', 'RewardItemController@addProduct')->name('addProduct');
+            Route::post('/store/bag', 'RewardItemController@storeBag')->name('storeBag');
+            Route::get('/store/bag', 'RewardItemController@addBag')->name('addBag');
+
+            Route::get('/update/product/{id}', 'RewardItemController@showUpdateProduct')->name('showUpdateProduct');
+            Route::post('/update/product/{id}', 'RewardItemController@updateProduct')->name('updateProduct');
+            Route::get('/update/bag/{id}', 'RewardItemController@showUpdatebag')->name('showUpdateBag');
+            Route::post('/update/bag/{id}', 'RewardItemController@updateBag')->name('updateBag');
+
+            Route::delete('/delete/product/{id}', 'RewardItemController@destroyProduct')->name('destroyProduct');
+            Route::delete('/delete/bag/{id}', 'RewardItemController@destroyBag')->name('destroyBag');
+        });
+
     });
+
+
 });

@@ -13,4 +13,5 @@ class PharmaciesPoints extends Model
     public function pharmacy(){
         return $this->belongsTo(Pharmacy::class,'pharmacy_id');
     }
+
 }

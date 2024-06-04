@@ -207,7 +207,10 @@ class ProductPointController extends Controller
     public function bag_point_edit($id, Request $request)
     {
         $productpoint = ProductPoint::whereId($id)->first();
+      dd($productpoint);
+
         $idx = json_decode($productpoint->type_id);
+      
         $old_products = Bag::whereIn('id', $idx)->get();
         $idx = array();
         $indecies = [];
@@ -306,7 +309,6 @@ class ProductPointController extends Controller
 
     public function pharmacies_points(Request $request)
     {
-
         $query_param = [];
         $search = $request['search'];
         if ($request->has('search')) {
@@ -322,7 +324,7 @@ class ProductPointController extends Controller
         } else {
             $pharmacies = new PharmaciesPoints();
         }
-        $pharmacies = PharmaciesPoints::groupBy('pharmacy_id')->with('pharmacy')->selectRaw('sum(points) as sum, pharmacy_id')->latest()->paginate(Helpers::pagination_limit());
+        $pharmacies = PharmaciesPoints::groupBy('id_of_pharmacy')->with('pharmacy')->selectRaw('sum(points) as sum, pharmacy_id,id')->latest()->paginate(Helpers::pagination_limit());
 
         return view('admin-views.points.pharmacies_points', compact('pharmacies', 'search'));
     }
