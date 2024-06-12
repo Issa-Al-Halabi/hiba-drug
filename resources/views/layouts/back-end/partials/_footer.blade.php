@@ -5,7 +5,15 @@
         </div>
     </div>
 </footer> --}}
+@php
+    $user = auth('admin')->user();
+@endphp
 
+@if(!$user)
+    <script>
+        window.location.href = "{{ route('admin.auth.login') }}";
+    </script>
+@else
 <div class="footer">
     <div class="row justify-content-between align-items-center">
         <div class="col">
@@ -42,3 +50,4 @@
         </div>
     </div>
 </div>
+@endif

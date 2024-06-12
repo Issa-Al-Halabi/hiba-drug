@@ -12,6 +12,7 @@ use App\CPU\Helpers;
 use App\Model\Bag;
 use App\Model\PharmaciesPoints;
 use App\Model\Product;
+use App\Pharmacy;
 
 class ProductPointController extends Controller
 {
@@ -207,7 +208,6 @@ class ProductPointController extends Controller
     public function bag_point_edit($id, Request $request)
     {
         $productpoint = ProductPoint::whereId($id)->first();
-      dd($productpoint);
 
         $idx = json_decode($productpoint->type_id);
       
@@ -310,6 +310,7 @@ class ProductPointController extends Controller
     public function pharmacies_points(Request $request)
     {
         $query_param = [];
+  		$pharmaciesQuery = PharmaciesPoints::query();
         $search = $request['search'];
         if ($request->has('search')) {
             $key = explode(' ', $request['search']);
@@ -324,8 +325,20 @@ class ProductPointController extends Controller
         } else {
             $pharmacies = new PharmaciesPoints();
         }
-        $pharmacies = PharmaciesPoints::groupBy('id_of_pharmacy')->with('pharmacy')->selectRaw('sum(points) as sum, pharmacy_id,id')->latest()->paginate(Helpers::pagination_limit());
 
-        return view('admin-views.points.pharmacies_points', compact('pharmacies', 'search'));
+        $pharmacies = $pharmaciesQuery
+        ->groupBy('id_of_pharmacy')
+        ->selectRaw('sum(points) as sum, id_of_pharmacy')
+        ->latest()
+        ->paginate(Helpers::pagination_limit());
+
+        // Append the name of each pharmacy to the result
+        foreach ($pharmacies as $pharmacyPoint) {
+            $pharmacy = Pharmacy::find($pharmacyPoint->id_of_pharmacy);
+            $pharmacyPoint->name = $pharmacy ? $pharmacy->name : 'Unknown';
+        }
+            return view('admin-views.points.pharmacies_points', compact('pharmacies', 'search'));
     }
+    
+
 }

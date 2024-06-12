@@ -10,7 +10,7 @@
   'delivered' => 'تم التوصيل',
   'Delivered' => 'تم التوصيل',
   'returned' => 'مُرتجع',
-  'failed' => 'فشل',
+  'failed' => 'رفض',
   'canceled' => 'الغاء',
   'product_management' => 'إدراة المنتجات',
   'brands' => 'الشركات',
@@ -91,7 +91,7 @@
   'most_rated_products' => 'المنتجات الأكثر تقييماً',
   'Pending' => 'قيد الانتظار',
   'Returned' => 'مُرتجع',
-  'Failed' => 'فشل',
+  'Failed' => 'رفض',
   'Product' => 'منتج',
   'my_bank_info' => 'معلوماتي البنكية',
   'my_shop' => 'متجري',
@@ -2351,6 +2351,16 @@
   'Bag_name' => 'Bag name',
   'Are_you_sure_delete_this_bag_points' => 'Are you sure delete this bag points',
   'Bag Points Edit' => 'Bag Points Edit',
+  'Points store' => 'متجر النقاط',
+  'Points list' => 'قائمة النقاط',
+  'Update Points' => 'تحديث النقاط',
+  'Bag added successfully!' => 'Bag added successfully!',
+  'Update successfully!' => 'تم التحديث بنجاح',
+  'Destroy successfully!' => 'تم الحذف بنجاح',
+  'Added successfully!' => 'تمت الاضافة بنجاح',
+  'Favorite Products' => 'المنتجات المفضلة',
+  'Customers Reviews' => 'مراجعات الزبائن',
+  'Most requested products' => 'المنتجات الأكثر طلبا',
   '
             Are_you_sure_vip_this_pharmacy ' => '
             Are you sure vip this pharmacy ',
@@ -2372,21 +2382,4 @@
   '
                         Status updated failed.Plan must be approved ' => '
                         Status updated failed.Plan must be approved ',
-  '
-                    Invalid date range ' => '
-                    Invalid date range ',
-  '
-            are_you_sure ? ' => '
-            are you sure   ',
-  '
-                            Brand_deleted_successfully ' => '
-                            Brand deleted successfully ',
-    'Pharmacy Name' => 'اسم الصيدلية',
-  'Points store' => 'متجر النقاط',
-  'Points list' => 'قائمة النقاط',
-  'Update Points' => 'تحديث النقاط',
-  'Bag added successfully!' => 'Bag added successfully!',
-  'Update successfully!' => 'تم التحديث بنجاح',
-  'Destroy successfully!' => 'تم الحذف بنجاح',
-  'Added successfully!' => 'تمت الاضافة بنجاح',
 );

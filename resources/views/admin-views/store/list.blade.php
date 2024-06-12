@@ -17,9 +17,7 @@
         <div class="row" style="margin-top: 20px">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header">
-
-
+                    <div style="display: flex;flex-direction: row;padding-top: 1rem;padding-bottom: 1rem;">
                         <!-- Search -->
                         <form action="{{ url()->current() }}" method="GET">
                             <div class="input-group input-group-merge input-group-flush">
@@ -34,9 +32,15 @@
                             </div>
                         </form>
                         <!-- End Search -->
+                        <div style="margin-left: 10px;margin-right: 10px;">
+                        <a href="{{ route('admin.store.add-new') }}" class="btn btn-primary pull-right"><i
+                                class="tio-add-circle"></i> {{\App\CPU\translate('add')}}
+                        </a>
+                        </div>
 
 
                     </div>
+                    
                     <div class="card-body" style="padding: 0">
                         <div class="table-responsive">
                             <table style="text-align: {{Session::get('direction') === "rtl" ? 'right' : 'left'}};"
@@ -66,7 +70,7 @@
                                         </td>
                                         <td>
                                             <a class="btn btn-primary btn-sm"
-                                               href="{{route('admin.store.update',[$b['id']])}}">
+                                               href="{{route('admin.store.edit',[$b['id']])}}">
                                                 <i class="tio-edit"></i> {{ \App\CPU\translate('Edit')}}
                                             </a>
                                             <a class="btn btn-danger btn-sm delete"

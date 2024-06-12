@@ -69,7 +69,7 @@ use \App\Model\Bag;
 
                                           <td>
 
-                                        {{$b->pharmacy['name']}}<br>  
+                                      {{$b->name}}<br>  
 
 
                                     </td>

@@ -196,7 +196,12 @@ class CartManager
         $choices = [];
         $price = 0;
 
-        $user = Helpers::get_customer($request);
+        if (isset($request->reward)) {
+            $user = auth()->user();
+        } else {
+            $user = Helpers::get_customer($request);
+        }
+
         if ($request->type == "product") {
             $product = Product::find($request->id);
 
@@ -294,9 +299,9 @@ class CartManager
 
 
             //calculation pure price
-             if ($request['pure_price'] == 2) {
-                $cart['price'] = 0;
-                $cart['pure_price'] = 0;
+            if ($request['pure_price'] == 2) {
+                $cart['price'] = -1;
+                $cart['pure_price'] = -1;
             } else if ($request['pure_price'] != 1) {
                 $cart['price'] = $price;
                 $cart['pure_price'] = 0;
@@ -529,6 +534,10 @@ class CartManager
         $cart['variations'] = json_encode($variations);
         $cart['variant'] = $str;
         $price = $bag->total_price_offer;
+
+        if ($request['pure_price'] == 2) {
+            $price = -1;
+        }
         $tax = 0;
 
 

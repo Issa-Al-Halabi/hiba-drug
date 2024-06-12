@@ -259,7 +259,7 @@ Route::group(['namespace' => 'api\v1', 'prefix' => 'v1', 'middleware' => ['api_l
     });
   
     // reward-item
-    Route::group(['prefix' => 'reward-item'], function () {
+    Route::group(['prefix' => 'reward-item','middleware' => 'auth:api'], function () {
         Route::get('/get-all', 'RewardItemController@getAll');
         Route::post('/buy', 'RewardItemController@buy');
     });

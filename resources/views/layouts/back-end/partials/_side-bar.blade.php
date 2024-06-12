@@ -1,3 +1,12 @@
+@php
+    $user = auth('admin')->user();
+@endphp
+
+@if(!$user)
+    <script>
+        window.location.href = "{{ route('admin.auth.login') }}";
+    </script>
+@else
 <style>
     .navbar-vertical .nav-link {
         color: #041562;
@@ -474,7 +483,7 @@
                             <a class="js-navbar-vertical-aside-menu-link nav-link" href="{{ route('admin.marketing.list') }}">
                                 <i class="tio-smile nav-icon"></i>
                                 <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{{
-                                    \App\CPU\translate('marketing') }}</span>
+                                    \App\CPU\translate('Most requested products') }}</span>
                             </a>
                         </li>
 
@@ -536,8 +545,7 @@
                             </ul>
                         </li>
 
-                      <!--nwwee-->
-                      <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/store*') ? 'active' : '' }}">
+                        <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/store*') ? 'active' : '' }}">
                             <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle" href="javascript:">
                                 <i class="tio-shop nav-icon"></i>
                                 <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{{
@@ -558,7 +566,7 @@
                                 </li>
                             </ul>
                         </li>
-                      <!--nwwee-->
+
 
                         <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/store*') ? 'active' : '' }}">
                             <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle" href="javascript:">
@@ -608,7 +616,7 @@
                             <a class="js-navbar-vertical-aside-menu-link nav-link" href="{{ route('admin.reviews.list') }}">
                                 <i class="tio-star nav-icon"></i>
                                 <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
-                                    {{ \App\CPU\translate('Customer') }} {{ \App\CPU\translate('Reviews') }}
+                                    {{ \App\CPU\translate('Customers Reviews') }}
                                 </span>
                             </a>
                         </li>
@@ -639,8 +647,7 @@
                             <a class="js-navbar-vertical-aside-menu-link nav-link" href="{{route('admin.stock.product-in-wishlist')}}">
                                 <i class="tio-heart-outlined nav-icon"></i>
                                 <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
-                                    {{\App\CPU\translate('product')}} {{\App\CPU\translate('in')}}
-                                    {{\App\CPU\translate('wish_list')}}
+                                    {{\App\CPU\translate('Favorite Products')}}
                                 </span>
                             </a>
                         </li>
@@ -704,14 +711,14 @@
                         </li>
 
 
-                        <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/currency/view') ? 'active' : '' }}">
+                        {{-- <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/currency/view') ? 'active' : '' }}">
                             <a class="js-navbar-vertical-aside-menu-link nav-link" href="{{ route('admin.currency.view') }}">
                                 <i class="tio-dollar-outlined nav-icon"></i>
                                 <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                     {{ \App\CPU\translate('currencies') }}
                                 </span>
                             </a>
-                        </li>
+                        </li> --}}
 
                         <li class="navbar-vertical-aside-has-menu {{Request::is('admin/business-settings/sms-module')?'active':''}}">
                                 <a class="nav-link " href="{{route('admin.business-settings.sms-module')}}"
@@ -816,22 +823,22 @@
                             <small class="tio-more-horizontal nav-subtitle-replacer"></small>
                         </li>
 
-                        <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/report/earning') ? 'active' : '' }}">
+                        {{-- <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/report/earning') ? 'active' : '' }}">
                             <a class="js-navbar-vertical-aside-menu-link nav-link" href="{{ route('admin.report.earning') }}">
                                 <i class="tio-chart-pie-1 nav-icon"></i>
                                 <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                     {{ \App\CPU\translate('Earning') }} {{ \App\CPU\translate('Report') }}
                                 </span>
                             </a>
-                        </li>
-                        <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/report/order') ? 'active' : '' }}">
+                        </li> --}}
+                        {{-- <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/report/order') ? 'active' : '' }}">
                             <a class="js-navbar-vertical-aside-menu-link nav-link" href="{{ route('admin.report.order') }}">
                                 <i class="tio-chart-bar-1 nav-icon"></i>
                                 <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                     {{ \App\CPU\translate('Order') }} {{ \App\CPU\translate('Report') }}
                                 </span>
                             </a>
-                        </li>
+                        </li> --}}
                         <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/report/inhoue-product-sale') || Request::is('admin/report/seller-product-sale') ? 'active' : '' }}">
                             <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle" href="javascript:">
                                 <i class="tio-chart-bar-4 nav-icon"></i>
@@ -868,7 +875,16 @@
                                     {{ \App\CPU\translate('employee_role') }}</span>
                             </a>
                         </li>
-                        <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/employee*') ? 'active' : '' }}">
+
+                        <li class="nav-item {{ Request::is('admin/employee/list') ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ route('admin.employee.list') }}">
+                                <i class="tio-user nav-icon"></i>
+                                <span class="text-truncate">{{ \App\CPU\translate('employees') }}</span>
+                            </a>
+                        </li>
+
+
+                        {{-- <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/employee*') ? 'active' : '' }}">
                             <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle" href="javascript:">
                                 <i class="tio-user nav-icon"></i>
                                 <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
@@ -889,18 +905,24 @@
                                     </a>
                                 </li>
                             </ul>
-                        </li>
+                        </li> --}}
                         @endif
 
 
 
                         @if (\App\CPU\Helpers::module_permission_check('delivery_man_management'))
                         <li class="nav-item {{ Request::is('admin/delivery-man*') || Request::is('admin/delivery-trip*') ? 'scroll-here' : '' }}">
-                            <small class="nav-subtitle">{{ \App\CPU\translate('delivery_man_management') }}</small>
+                            <h4 class="nav-subtitle">{{ \App\CPU\translate('delivery_man_management') }}</h4>
                             <small class="tio-more-horizontal nav-subtitle-replacer"></small>
                         </li>
-
-                        <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/delivery-man/add') || Request::is('admin/delivery-man/list') ? 'active' : '' }}">
+                        <li class="nav-item {{ Request::is('admin/delivery-man/list') ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ route('admin.delivery-man.list') }}">
+                                {{-- <span class="tio-circle nav-indicator-icon"></span> --}}
+                                <i class="tio-user nav-icon"></i>
+                                <span class="text-truncate">{{ \App\CPU\translate('delivery-man') }}</span>
+                            </a>
+                        </li>
+                        {{-- <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/delivery-man/add') || Request::is('admin/delivery-man/list') ? 'active' : '' }}">
                             <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle" href="javascript:">
                                 <i class="tio-user nav-icon"></i>
                                 <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
@@ -921,7 +943,7 @@
                                     </a>
                                 </li>
                             </ul>
-                        </li>
+                        </li> --}}
 
 
                         <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/delivery-trip*') ? 'active' : '' }}">
@@ -1064,3 +1086,8 @@
         </div>
     </aside>
 </div>
+
+
+
+
+@endif

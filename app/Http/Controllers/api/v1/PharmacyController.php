@@ -118,8 +118,11 @@ class PharmacyController extends Controller
 
     public function pharmacy_points(Request $request)
     {
-        //
-        $user = Helpers::get_customer($request);
+
+      // $user = Helpers::get_customer($request);
+      $user = Helpers::get_customer();
+ 
+
 
         try {
         $points = DB::table('pharmacies_points')->where('pharmacy_id',$user->id)->sum('points');

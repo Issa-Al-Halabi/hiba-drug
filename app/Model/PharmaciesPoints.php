@@ -10,6 +10,13 @@ class PharmaciesPoints extends Model
 {
     protected $table="pharmacies_points";
     use HasFactory;
+  
+    protected $fillable = [
+        "pharmacy_id",
+        "points",
+        "point_order_id",
+    ];
+  
     public function pharmacy(){
         return $this->belongsTo(Pharmacy::class,'pharmacy_id');
     }

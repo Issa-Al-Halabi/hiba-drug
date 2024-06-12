@@ -163,8 +163,8 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
             Route::get('add-new', 'StoresController@add_new')->name('add-new');
             Route::post('add-new', 'StoresController@store');
             Route::get('list', 'StoresController@list')->name('list');
-            Route::get('edit/{id}', 'StoresController@edit')->name('update');
-            Route::post('update/{id}', 'StoresController@update');
+            Route::get('edit/{id}', 'StoresController@edit')->name('edit');
+            Route::post('update/{id}', 'StoresController@update')->name('update');
             Route::post('delete', 'StoresController@delete')->name('delete');
         });
 

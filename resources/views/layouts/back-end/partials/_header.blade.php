@@ -1,3 +1,13 @@
+@php
+    $user = auth('admin')->user();
+@endphp
+
+@if(!$user)
+    <script>
+        window.location.href = "{{ route('admin.auth.login') }}";
+    </script>
+@else
+
 <div id="headerMain" class="d-none">
     <header id="header" style="background-color: #041562"
             class="navbar navbar-expand-lg navbar-fixed navbar-height navbar-flush navbar-container navbar-bordered">
@@ -221,3 +231,4 @@
 </div>
 <div id="headerFluid" class="d-none"></div>
 <div id="headerDouble" class="d-none"></div>
+@endif

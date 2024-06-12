@@ -57,6 +57,6 @@ class RewardItem extends Model
 
     public function bag()
     {
-        return $this->belongsTo(Bag::class, 'bag_id');
+        return $this->belongsTo(Bag::class, 'bag_id')->with("bag_order_details");
     }
 }

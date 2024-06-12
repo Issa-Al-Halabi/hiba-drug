@@ -12,6 +12,8 @@ use App\Model\Bag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use function App\CPU\translate;
+use App\Model\PharmaciesPoints;
+use App\Model\RewardItem;
 
 class CartController extends Controller
 {
@@ -166,6 +168,24 @@ class CartController extends Controller
         }
         //End
 
+      
+        // add points if the product is from reward item 
+      
+      if ($cart->price == -1) {
+            $rewardItems = RewardItem::all();
+            foreach ($rewardItems as $rewardItem) {
+                if ($cart->product_id == $rewardItem->getTypeId()) {
+                    $points = $rewardItem->cost * $cart->quantity;
+                    PharmaciesPoints::create([
+                        "pharmacy_id" => $user->id,
+                        "points" => $points,
+                        "point_order_id" => $points,
+                    ]);
+                    break;
+                }
+            }
+        }
+        
 
 
         Cart::where(['id' => $request->key, 'customer_id' => $user->id])->delete();
